@@ -1,0 +1,41 @@
+{% include "dynamic_base.html" %}
+<script>
+{% comment %} alert('{{message}}') {% endcomment %}
+</script>
+{% block content %}
+    <div class="container-fluid">
+     <div class="row">
+
+
+        <div class="col-sm-5">
+
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+
+          
+        </div>
+
+
+         <div class="col-sm-7">
+              <h1 class="toc_head">
+              {{message}}
+              </h1>
+              
+         <ol>
+              {% for module in modules %}
+                      <li>
+                        <a href="/coursebuilder/chapter/{% autoescape off %}{{ module.module }}{% endautoescape %}">
+                          {% autoescape off %}{{ module.title }}{% endautoescape %}
+                        </a>
+                     </li>
+              {% endfor %}
+        </ol>
+       </div>
+      </div>
+
+    </div>
+
+{% endblock content %}
