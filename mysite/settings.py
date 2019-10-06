@@ -26,9 +26,9 @@ SECRET_KEY = '@+%x+r-cfv@*2+qi)&9w^6jvp-h=bypm+7$uee8jlm1%=qvcjw'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'www.thecoursebuildercourse.com',
+    'www.coursebuilder.com',
+    'coursebuilder.pythonanywhere.com',
     '127.0.0.1',
-    'nyustaging.pythonanywhere.com'
 ]
 
 
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'participants',
     'tinymce'
 ]
 

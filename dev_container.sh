@@ -1,6 +1,6 @@
 #!/bin/sh
 export HOST_PORT="8000"
-export REPO="onlinecoursebuilder"
+export REPO="coursebuilder"
 export DH_ACCOUNT="gcallah"
 export CONTAINER="$DH_ACCOUNT/$REPO-dev"
 if [ $1 ]

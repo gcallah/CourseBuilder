@@ -3,6 +3,8 @@
 export TEMPLATE_DIR = templates
 PTML_DIR = html_src
 UTILS_DIR = utils
+DOCKER_DIR = docker
+REPO = coursebuilder
 
 INCS = $(TEMPLATE_DIR)/head.txt $(TEMPLATE_DIR)/logo.txt $(TEMPLATE_DIR)/menu.txt
 
