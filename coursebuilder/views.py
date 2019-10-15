@@ -69,6 +69,7 @@ def dynamic_gloss(request: request) -> object:
     try:
         return render(request, 'dynamic_gloss.html', {
             'header': site_hdr,
+            'gloss': render_to_string('glossary.html'),
         })
     except Exception:
         return render(request, 'dynamic_gloss.html', {
