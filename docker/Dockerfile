@@ -8,4 +8,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements-dev.txt
 
 
-WORKDIR /home/CourseBuilder/
+WORKDIR /home/coursebuilder/
