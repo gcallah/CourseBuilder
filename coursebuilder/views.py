@@ -1,12 +1,14 @@
-from django.http \
-    import request, \
-    HttpResponseServerError
+import urllib.request
+import re
+
+from django.http import request, HttpResponseServerError
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-import urllib.request
+from django.template.loader import render_to_string
 from bs4 import BeautifulSoup as bs
-import re
+
 from .models import CourseModule
+
 
 site_hdr = "Generic Website"
 
@@ -37,6 +39,7 @@ def dynamic_about(request: request) -> object:
     try:
         return render(request, 'dynamic_about.html', {
             'header': site_hdr,
+            'about': render_to_string('about.html'),
         })
 
     except Exception:
