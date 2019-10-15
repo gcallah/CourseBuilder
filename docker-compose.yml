@@ -27,9 +27,7 @@ services:
     depends_on:
       dbengine:
         condition: service_healthy
-    build:
-      context: .
-      dockerfile: django-container.yml
+    build: ./docker
     restart: always
     container_name: coursebuilderapp
     ports:

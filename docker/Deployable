@@ -6,4 +6,4 @@ RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
-WORKDIR /home/CourseBuilder/
+WORKDIR /home/coursebuilder/
