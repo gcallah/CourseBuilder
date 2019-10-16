@@ -10,7 +10,7 @@
  {% for section in sections %}
      <details>
         <summary class="sum1">
-            {% autoescape off %}{{ section.title }}{% endautoescape %}
+            {% autoescape off %}Lesson: {{section.order}}:{{ section.title }}{% endautoescape %}
         </summary>
          {% autoescape off %}{{ section.content }}{% endautoescape %}
      </details>
