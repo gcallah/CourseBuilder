@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 from django.template.loader import render_to_string
 from bs4 import BeautifulSoup as bs
 
-from .models import CourseModule
+from .models import CourseModule, ModuleSection 
 
 
 site_hdr = "Generic Website"
@@ -53,8 +53,11 @@ def chapter(request, chapter='basics'):
 
     try:
         contents = CourseModule.objects.get(module=chapter)
+        sections = ModuleSection.objects.filter(module=contents)\
+            .order_by('lesson_order')
         return render(request, 'chapter.html', {
             'module_title': contents.title,
+            'sections': sections,
             'header': site_hdr,
             'content': contents.content,
             'mod_nm': chapter
