@@ -48,17 +48,19 @@ class ModuleSection(models.Model):
 
 
 class Quiz(models.Model):
-    module = models.CharField(max_length=MODNM_LEN, unique=True)
+    # module = models.CharField(max_length=MODNM_LEN, unique=True)
+    module = models.ForeignKey(CourseModule, models.SET_NULL, blank=True, null=True)
     minpass = models.FloatField(default=DEF_PASS)
     numq = models.IntegerField()
     show_answers = models.BooleanField(default=True)
 
     def __str__(self):
-        return "Quiz for " + self.module
+        return "Quiz for " + str(self.module)
 
 
 class Question(models.Model):
-    module = models.CharField(max_length=MODNM_LEN)
+    # module = models.CharField(max_length=MODNM_LEN)
+    module = models.ForeignKey(CourseModule, models.SET_NULL, blank=True, null=True)
     text = models.CharField(max_length=QUEST_LEN)
     difficulty = models.IntegerField(null=True, blank=True)
     qtype = models.CharField(choices=QTYPES, max_length=10)
