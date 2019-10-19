@@ -54,7 +54,7 @@ def chapter(request, chapter='basics'):
     try:
         contents = CourseModule.objects.get(module=chapter)
         sections = ModuleSection.objects.filter(module=contents)\
-            .order_by('lesson_order')
+            .order_by('order', 'lesson_order')
         return render(request, 'chapter.html', {
             'module_title': contents.title,
             'sections': sections,
