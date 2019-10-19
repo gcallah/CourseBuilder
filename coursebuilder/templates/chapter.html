@@ -1,24 +1,25 @@
 {% extends "dynamic_base.html" %}
 {% block content %}
 
-    <div class="module">
-        <h1>
-            {{ module_title }}
-        </h1>
+<div class="module">
+    <h1>
+        {{ module_title }}
+    </h1>
     {% autoescape off %}{{ content }}{% endautoescape %}
 
- {% for section in sections %}
-     <details>
+    {% for section in sections %}
+    <details>
         <summary class="sum1">
             {% autoescape off %}Lesson {{section.order}}: {{ section.title }}{% endautoescape %}
         </summary>
-         {% autoescape off %}{{ section.content }}{% endautoescape %}
-     </details>
-{% endfor %}
+        {% autoescape off %}{{ section.content }}{% endautoescape %}
+    </details>
+    {% endfor %}
 
 
 
-    </div>
+</div>
 
-      
+{% include 'quiz.html' %}
+
 {% endblock content %}

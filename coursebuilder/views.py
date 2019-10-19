@@ -1,5 +1,6 @@
 import urllib.request
 import re
+import random
 
 from django.http import request, HttpResponseServerError
 from django.shortcuts import render
@@ -7,9 +8,10 @@ from django.views.decorators.http import require_http_methods
 from django.template.loader import render_to_string
 from bs4 import BeautifulSoup as bs
 
-from .models import CourseModule, ModuleSection 
+from .models import CourseModule, ModuleSection, Question, Quiz
 
 
+DEF_NUM_RAND_QS = 10 # total number of questins
 site_hdr = "Generic Website"
 
 
@@ -55,9 +57,11 @@ def chapter(request, chapter='basics'):
         contents = CourseModule.objects.get(module=chapter)
         sections = ModuleSection.objects.filter(module=contents)\
             .order_by('lesson_order')
+        rand_qs = get_quiz_question(contents)
         return render(request, 'chapter.html', {
             'module_title': contents.title,
             'sections': sections,
+            'questions': rand_qs,
             'header': site_hdr,
             'content': contents.content,
             'mod_nm': chapter
@@ -157,3 +161,39 @@ def get_nav_links(curr_module, correct_pct, curr_quiz, mod_nm):
         if correct_pct < curr_quiz.minpass:
             nav_links['previous'] = 'coursebuilder:' + mod_nm
     return nav_links
+
+
+
+def get_quiz_question(mod_nm):
+
+    # Returns list of Randomized Questions
+    # :param: mod_nm, module name
+    # :return: list() containing randomized questions, mod_nm
+    try:
+        rand_qs = []
+        questions = Question.objects.filter(module=mod_nm)
+        total_num_questions = len(questions)
+        num_qs_to_randomize = DEF_NUM_RAND_QS
+
+        if total_num_questions > 0:
+            # we have to fetch numq from here:
+            quizzes = Quiz.objects.filter(module=mod_nm)
+
+            # we should log if we get count > 1 here!
+            for quiz in quizzes:
+                # we should have only 1 if any!
+                num_qs_to_randomize = quiz.numq
+                break
+
+            if total_num_questions >= num_qs_to_randomize:
+                rand_qs = random.sample(list(questions), num_qs_to_randomize)
+            else:
+                rand_qs = random.sample(list(questions), total_num_questions)
+
+        return rand_qs
+
+        # And if we crashed along the way - we crash gracefully...
+    except Exception:
+        return render(request, 'chapter.html', {
+            'header': site_hdr,
+            'content': "Database Not Connected"})
