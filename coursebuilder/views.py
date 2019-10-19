@@ -56,7 +56,7 @@ def chapter(request, chapter='basics'):
     try:
         contents = CourseModule.objects.get(module=chapter)
         sections = ModuleSection.objects.filter(module=contents)\
-            .order_by('lesson_order')
+            .order_by('order', 'lesson_order')
         rand_qs = get_quiz_question(contents)
         return render(request, 'chapter.html', {
             'module_title': contents.title,
