@@ -6,7 +6,7 @@ services:
     - docker
 
 addons:
-    ssh_known_hosts: ssh.pythonanywhere.com
+    ssh_known_hosts: 
 
 before_install:
     
