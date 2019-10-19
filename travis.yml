@@ -1,0 +1,27 @@
+language: python
+python:
+    - '3.6'
+
+services:
+    - docker
+
+addons:
+    ssh_known_hosts: ssh.pythonanywhere.com
+
+before_install:
+    
+
+install:
+    - 
+
+env:
+    - 
+
+script:
+    - 
+
+after_success:
+    - 
+
+notifications:
+slack: 
