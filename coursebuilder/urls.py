@@ -22,4 +22,10 @@ urlpatterns = [
         views.dynamic_gloss, name='dynamic_gloss'),
     url(r'^coursebuilder/parse_search/*$',
         views.parse_search, name='parse_search'),
+    url(r'^coursebuilder/grade_quiz/*$', 
+        views.grade_quiz, name='grade_quiz'),
+    url(r'^coursebuilder/chapter/cb_models/',
+        views.chapter,name='cb_models'),
+    url(r'^coursebuilder/chapter/Intro/',
+        views.chapter,name='Intro')
 ]
