@@ -22,6 +22,10 @@ prod: $(INCS) $(HTMLFILES)
 	git pull origin master
 	git push origin master
 
+# real tests need to be written!
+tests: FORCE
+	ls
+
 submods:
 	git submodule foreach 'git pull origin master'
 
