@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^coursebuilder/chapter/cb_models/',
         views.chapter,name='cb_models'),
     url(r'^coursebuilder/chapter/Intro/',
-        views.chapter,name='Intro')
+        views.chapter,name='Intro'),
+    url(r'^coursebuilder/chapter/cb_quiz/',
+        views.chapter,name='cb_quiz')
 ]
