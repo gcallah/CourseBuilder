@@ -24,9 +24,11 @@ prod: $(INCS) $(HTMLFILES)
 	git pull origin master
 	git push origin master
 
+django_tests: FORCE
+	coverage run manage.py test
+
 # real tests need to be written!
-tests: FORCE
-	ls
+tests: django_tests
 
 submods:
 	git submodule foreach 'git pull origin master'
