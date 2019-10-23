@@ -2,7 +2,7 @@ import urllib.request
 import re
 import random
 
-from django.http import request, HttpResponseServerError
+from django.http import request, HttpResponseServerError, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.template.loader import render_to_string
@@ -315,7 +315,7 @@ def grade_quiz(request):
 
         # If it is PUT, DELETE etc. we say we dont do that...
         else:
-            raise HttpResponseBadRequest("ERROR: Method not allowed")
+            return HttpResponseBadRequest("ERROR: Method not allowed")
 
     # And if we crashed along the way - we crash gracefully...
     except Exception as e:
