@@ -24,4 +24,4 @@ after_success:
     - 
 
 notifications:
-slack: 
+  slack: devopsnyu:YZ3A0SLBrYur0DXkEh95c9Y2
