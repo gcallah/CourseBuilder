@@ -55,7 +55,7 @@ class Quiz(models.Model):
     show_answers = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name_plural = "Quizes"
+        verbose_name_plural = "Quizzes"
 
     def __str__(self):
         return "Quiz for " + str(self.module)
