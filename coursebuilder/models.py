@@ -54,6 +54,9 @@ class Quiz(models.Model):
     numq = models.IntegerField()
     show_answers = models.BooleanField(default=True)
 
+    class Meta:
+        verbose_name_plural = "Quizes"
+
     def __str__(self):
         return "Quiz for " + str(self.module)
 
@@ -81,6 +84,9 @@ class Question(models.Model):
 class Extras(models.Model):
     title = models.TextField()
     content = HTMLField(default='Please enter your contents here!')
+
+    class Meta:
+        verbose_name_plural = "Extras"
 
     def __str__(self):
         return self.title
