@@ -5,7 +5,14 @@
 
     {% if not questions %}
         <ul class="nested">
-            <p> There is no quiz available for this module. </p>
+            <p> There is no quiz available for this module. 
+                <br/>
+                {% if next_module %}
+                    <a href={% url next_module %}>
+                        Continue onto next module
+                    </a>
+                {% endif %}
+            </p>
         </ul>
     {% else %}
         {% if messages %}

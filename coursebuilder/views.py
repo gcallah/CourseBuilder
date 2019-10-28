@@ -59,13 +59,21 @@ def chapter(request, chapter='basics'):
         sections = ModuleSection.objects.filter(module=contents)\
             .order_by('order', 'lesson_order')
         rand_qs = get_quiz_question(contents)
+        next_module = ''
+        if not rand_qs:
+            try:
+                if CourseModule.objects.get(module=contents.next_module):
+                    next_module = 'coursebuilder:' + contents.next_module
+            except:
+                pass
         return render(request, 'chapter.html', {
             'module_title': contents.title,
             'sections': sections,
             'questions': rand_qs,
             'header': site_hdr,
             'content': contents.content,
-            'mod_nm': chapter
+            'mod_nm': chapter,
+            'next_module': next_module
         })
     except Exception:
         return render(request, 'chapter.html', {
