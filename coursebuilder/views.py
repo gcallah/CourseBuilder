@@ -153,11 +153,13 @@ def get_nav_links(curr_module, correct_pct, curr_quiz, mod_nm):
     nav_links = {}
     # show link to next module if it exists
     if curr_module is not None:
-        nav_links = {
-            'next': 'coursebuilder:' +
-            curr_module.next_module
-            if curr_module.next_module else False
-        }
+        try:
+            if CourseModule.objects.get(module=curr_module.next_module):
+                nav_links = { 
+                    'next': 'coursebuilder:' + curr_module.next_module
+                }   
+        except:
+            nav_links = { }
         # If user fails, show link to previous module
         if correct_pct < curr_quiz.minpass:
             nav_links['previous'] = 'coursebuilder:' + mod_nm
