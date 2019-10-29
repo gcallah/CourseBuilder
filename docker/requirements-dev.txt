@@ -1,6 +1,10 @@
 -r requirements.txt
-flake8
+setuptools
 coverage
+nose
+django-autofixture
 selenium
 urllib3
-django-autofixture
+flake8
+django-tinymce
+beautifulsoup4
