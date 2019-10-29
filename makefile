@@ -1,10 +1,19 @@
 # A template makefile that works for static websites.
 # Need to export as ENV var
 export TEMPLATE_DIR = templates
+DEV_DIR = coursebuilder
 PTML_DIR = html_src
 UTILS_DIR = utils
 DOCKER_DIR = docker
+TEST_DIR = tests
+SITE_DIR = mysite
 REPO = coursebuilder
+PY_LINT = flake8
+PYLINT_FLAGS =
+PYTHON_FILES = $(shell ls $(DEV_DIR)/*.py)
+PYTHON_FILES += $(shell ls $(SITE_DIR)/*.py)
+PYTHON_FILES += $(shell ls $(DEV_DIR)/$(TEST_DIR)/*.py)
+
 
 INCS = $(TEMPLATE_DIR)/head.txt $(TEMPLATE_DIR)/logo.txt $(TEMPLATE_DIR)/menu.txt
 
@@ -27,8 +36,17 @@ prod: $(INCS) $(HTMLFILES)
 django_tests: FORCE
 	coverage run manage.py test
 
+# next come quality control targets:
+html_tests: $(HTMLS)
+	$(TEST_DIR)/html_tests.sh
+
+lint: $(patsubst %.py,%.pylint,$(PYTHON_FILES))
+
+%.pylint:
+	$(PY_LINT) $(PYLINT_FLAGS) $*.py
+
 # real tests need to be written!
-tests: django_tests
+tests: django_tests html_tests lint
 
 submods:
 	git submodule foreach 'git pull origin master'
