@@ -2,7 +2,8 @@ import urllib.request
 import re
 import random
 
-from django.http import request, HttpResponseServerError, HttpResponseBadRequest
+from django.http import request, HttpResponseServerError, \
+    HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.template.loader import render_to_string
@@ -12,7 +13,7 @@ from decimal import Decimal
 from .models import CourseModule, ModuleSection, Question, Quiz, Grade
 
 
-DEF_NUM_RAND_QS = 10 # total number of questins
+DEF_NUM_RAND_QS = 10  # total number of questins
 site_hdr = "Generic Website"
 
 
@@ -64,7 +65,7 @@ def chapter(request, chapter='basics'):
             try:
                 if CourseModule.objects.get(module=contents.next_module):
                     next_module = 'coursebuilder:' + contents.next_module
-            except:
+            except Exception:
                 pass
         return render(request, 'chapter.html', {
             'module_title': contents.title,
@@ -163,16 +164,15 @@ def get_nav_links(curr_module, correct_pct, curr_quiz, mod_nm):
     if curr_module is not None:
         try:
             if CourseModule.objects.get(module=curr_module.next_module):
-                nav_links = { 
+                nav_links = {
                     'next': 'coursebuilder:' + curr_module.next_module
-                }   
-        except:
-            nav_links = { }
+                }
+        except Exception:
+            nav_links = {}
         # If user fails, show link to previous module
         if correct_pct < curr_quiz.minpass:
             nav_links['previous'] = 'coursebuilder:' + mod_nm
     return nav_links
-
 
 
 def get_quiz_question(mod_nm):

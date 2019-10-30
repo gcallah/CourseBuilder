@@ -11,7 +11,9 @@
     <details>
         <summary class="sum1">
             {% if section.lesson_order %}
-                {% autoescape off %}Lesson {{ section.lesson_order }}: {{ section.title }}{% endautoescape %}
+                {% autoescape off %}
+                Lesson {{ section.lesson_order }}: {{ section.title }}
+                {% endautoescape %}
             {% else %}
                 {% autoescape off %}{{ section.title }}{% endautoescape %}
             {% endif %} 

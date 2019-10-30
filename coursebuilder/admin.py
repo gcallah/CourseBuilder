@@ -17,7 +17,10 @@ class QuizAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("module", "text", "difficulty", "qtype", "correct", "answerA", "answerB", "answerC", "answerD", "answerE")
+    list_display = (
+        "module", "text", "difficulty", "qtype", "correct",
+        "answerA", "answerB", "answerC", "answerD", "answerE"
+    )
 
 
 class GradeAdmin(admin.ModelAdmin):
