@@ -1,16 +1,12 @@
-from unittest import skip
-
 from autofixture import AutoFixture
-from django.http import HttpResponseBadRequest
 from django.test import TestCase, Client
-from django.contrib.auth.models import User
 from django.urls import reverse
-from coursebuilder.models import CourseModule, Quiz, Question, Grade
 
+from coursebuilder.models import CourseModule, Quiz, Question
 from .test_helpers import generate_form_data_for_quiz
 
-class GradeQuizTestCase(TestCase):
 
+class GradeQuizTestCase(TestCase):
 
     def setUp(self):
         """
@@ -18,11 +14,10 @@ class GradeQuizTestCase(TestCase):
         some data to run your test.
         It is executed once in the beginning of the test case.
         """
-        
         course_module = {
             # module_name : title
             "cb_models": "Course Builder Model",
-            "cb_quiz" : "Course Builder Quiz"
+            "cb_quiz": "Course Builder Quiz"
         }
 
         self.num_questions_to_test = 10
@@ -36,7 +31,7 @@ class GradeQuizTestCase(TestCase):
                 module=key,
                 title=value,
                 content=value,
-                next_module=modules_names[index%len(course_module)])
+                next_module=modules_names[index % len(course_module)])
             index = index + 1
 
             Quiz.objects.create(
@@ -61,9 +56,35 @@ class GradeQuizTestCase(TestCase):
         quizzes = Quiz.objects.all()
         for quiz in quizzes:
             form_data = generate_form_data_for_quiz(quiz)
-            
             # Send form_data in POST request...
-            results = self.client.post(reverse('coursebuilder:grade_quiz'),
-                                                data=form_data)
+            results = self.client.post(
+                reverse('coursebuilder:grade_quiz'), data=form_data)
             self.assertEqual(results.status_code, 200)
             self.assertTemplateUsed(results, 'graded_quiz.html')
+
+    def test_grade_quiz_all_answers_should_be_graded(self):
+        quizzes = Quiz.objects.all()
+        for quiz in quizzes:
+            form_data = generate_form_data_for_quiz(quiz)
+            # Send form_data in POST request...
+            results = self.client.post(
+                reverse('coursebuilder:grade_quiz'), data=form_data)
+            graded_answers = results.context['graded_answers']
+            self.assertEqual(len(graded_answers), self.num_questions_to_test)
+
+    def test_grade_quiz_html_content_should_be_corrected(self):
+        quizzes = Quiz.objects.all()
+        for quiz in quizzes:
+            form_data = generate_form_data_for_quiz(quiz)
+            # Send form_data in POST request...
+            results = self.client.post(
+                reverse('coursebuilder:grade_quiz'), data=form_data)
+            # Did we counter results right?
+            correct_answers = results.context['num_correct']
+            expected_message = \
+                "<span>You have correctly answered {0} out of {1} " \
+                "questions giving you a score of 100%.</span>"\
+                .format(str(correct_answers),
+                        str(self.num_questions_to_test))
+
+            self.assertInHTML(expected_message, str(results.content))
