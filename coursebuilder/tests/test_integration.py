@@ -113,4 +113,11 @@ class GradeQuizTestCase(TestCase):
             # Did all answers were graded?
             self.assertEqual(len(graded_answers), self.num_questions_to_test)
 
-            
+            # Did we got all the messages right?..
+            for graded_answer in graded_answers:
+                # Find this question in given answer...
+                specimen = answers_given[graded_answer['question']]
+                # Check what answer was given
+                # and does it match right one & assert that they match...
+                self.assertEqual(specimen['answer_status'],
+                                 graded_answer['status'])
