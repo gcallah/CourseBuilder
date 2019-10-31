@@ -88,3 +88,29 @@ class GradeQuizTestCase(TestCase):
                         str(self.num_questions_to_test))
 
             self.assertInHTML(expected_message, str(results.content))
+
+    def test_quiz_displays_answers(self):
+        # get all Quizzes...
+        """
+        Integration test for DC-5 Display correct answers.
+        Check is returned graded_answers
+        done right work evaluating right & wrong.
+        """
+        quizzes = Quiz.objects.all()
+        running_id = 0
+        # for each of the Quizzes lets try to answer it...
+        for quiz in quizzes:
+            # get all questions & Generate form_data with the right answers...
+                
+            # Send form_data in POST request...
+            form_data, answers_given = generate_form_data_for_quiz(quiz, running_id=0)
+            results = self.client.post(reverse('coursebuilder:grade_quiz'),
+                                       data=form_data)
+
+            # Lets get evaluation results...
+            graded_answers = results.context['graded_answers']
+
+            # Did all answers were graded?
+            self.assertEqual(len(graded_answers), self.num_questions_to_test)
+
+            
