@@ -12,7 +12,7 @@ before_install:
     
 
 install:
-    - 
+    - pip install -r requirements-dev.txt 
 
 env:
     - 
