@@ -1,15 +1,19 @@
+#!/usr/bin/env python
+"""Helper file for tests"""
 from coursebuilder.models import CourseModule, Question
 
 
+# This is a helper function for testing quiz module
 def generate_form_data_for_quiz(quiz, running_id=None):
-    
+
     quiz_questions = Question.objects.filter(module=quiz.module)
     form_data = {}
-    
+
     if running_id is None:
         for question in quiz_questions:
             form_data['_' + str(question.pk)] = question.correct
-        form_data['submit'] = CourseModule.objects.get(title=quiz.module).module
+        form_data['submit'] = CourseModule.objects.get(
+                               title=quiz.module).module
         return form_data
     answers_given = {}
     for question in quiz_questions:

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+"""Tests for CourseBuilder code"""
 from autofixture import AutoFixture
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -97,13 +99,14 @@ class GradeQuizTestCase(TestCase):
         done right work evaluating right & wrong.
         """
         quizzes = Quiz.objects.all()
-        running_id = 0
+        # running_id = 0
         # for each of the Quizzes lets try to answer it...
         for quiz in quizzes:
             # get all questions & Generate form_data with the right answers...
-                
+
             # Send form_data in POST request...
-            form_data, answers_given = generate_form_data_for_quiz(quiz, running_id=0)
+            form_data, answers_given = generate_form_data_for_quiz(
+                                        quiz, running_id=0)
             results = self.client.post(reverse('coursebuilder:grade_quiz'),
                                        data=form_data)
 
