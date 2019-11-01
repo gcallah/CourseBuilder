@@ -7,16 +7,16 @@ services:
     - docker
 
 addons:
-    ssh_known_hosts: 
+    ssh_known_hosts: ssh.pythonanywhere.com
 
 before_install:
-    
+    openssl aes-256-cbc -K $encrypted_bf55724b916d_key -iv $encrypted_bf55724b916d_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
 
 install:
     - pip install -r docker/requirements-dev.txt 
 
 env:
-    - 
+    - PYTHONPATH=/home/travis/build/gcallah/CourseBuilder
 
 script:
     - make tests
