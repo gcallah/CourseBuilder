@@ -22,7 +22,7 @@ script:
     - make tests
 
 after_success:
-    - ./deploy.sh
+
 
 notifications:
   slack: devopsnyu:YZ3A0SLBrYur0DXkEh95c9Y2
