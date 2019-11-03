@@ -39,13 +39,13 @@
 
 <p>
     {% if navigate_links.previous %}
-    <a href={% url navigate_links.previous %}>
+    <a href={% url 'coursebuilder:chapter' navigate_links.previous %}>
         We suggest you repeat this module
     </a>
     <br />
     {% endif %}
     {% if navigate_links.next %}
-    <a href={% url navigate_links.next %}>
+    <a href={% url 'coursebuilder:chapter' navigate_links.next %}>
         Continue onto next module
     </a>
     <br />

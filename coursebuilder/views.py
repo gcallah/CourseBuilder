@@ -64,7 +64,7 @@ def chapter(request, chapter='basics'):
         if not rand_qs:
             try:
                 if CourseModule.objects.get(module=contents.next_module):
-                    next_module = 'coursebuilder:' + contents.next_module
+                    next_module = contents.next_module
             except Exception:
                 pass
         return render(request, 'chapter.html', {
@@ -165,13 +165,13 @@ def get_nav_links(curr_module, correct_pct, curr_quiz, mod_nm):
         try:
             if CourseModule.objects.get(module=curr_module.next_module):
                 nav_links = {
-                    'next': 'coursebuilder:' + curr_module.next_module
+                    'next': curr_module.next_module
                 }
         except Exception:
             nav_links = {}
         # If user fails, show link to previous module
         if correct_pct < curr_quiz.minpass:
-            nav_links['previous'] = 'coursebuilder:' + mod_nm
+            nav_links['previous'] = mod_nm
     return nav_links
 
 
