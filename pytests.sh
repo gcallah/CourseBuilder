@@ -11,4 +11,4 @@ else
     export capture="--nocapture"
 fi
 
-coverage run manage.py test $test_dir.test_integration -v 2
+coverage run manage.py test $test_dir.test_integration
