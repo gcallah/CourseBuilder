@@ -18,7 +18,7 @@ class GradeQuizTestCase(TestCase):
         """
         course_module = {
             # module_name : title
-            "cb_models": "Course Builder Model",
+            "cb_django": "Course Builder Model",
             "cb_quiz": "Course Builder Quiz"
         }
 

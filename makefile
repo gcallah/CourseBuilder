@@ -35,7 +35,8 @@ prod: $(INCS) $(HTMLFILES)
 
 django_tests: FORCE
 	# coverage run manage.py test
-	echo "Must put real tests in place!"
+	sh pytests.sh
+	# echo "Must put real tests in place!"
 
 # next come quality control targets:
 html_tests: $(HTMLS)
