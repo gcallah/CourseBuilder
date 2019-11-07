@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from coursebuilder.models import CourseModule, Quiz, Question
-from .test_helpers import generate_form_data_for_quiz
+from .test_helpers import gen_quiz_form_data
 
 
 class GradeQuizTestCase(TestCase):
@@ -55,7 +55,7 @@ class GradeQuizTestCase(TestCase):
     def test_grade_quiz_should_be_used_right_template(self):
         quizzes = Quiz.objects.all()
         for quiz in quizzes:
-            form_data = generate_form_data_for_quiz(quiz)
+            form_data = gen_quiz_form_data(quiz)
             # Send form_data in POST request...
             results = self.client.post(
                 reverse('coursebuilder:grade_quiz'), data=form_data)
@@ -65,7 +65,7 @@ class GradeQuizTestCase(TestCase):
     def test_grade_quiz_all_answers_should_be_graded(self):
         quizzes = Quiz.objects.all()
         for quiz in quizzes:
-            form_data = generate_form_data_for_quiz(quiz)
+            form_data = gen_quiz_form_data(quiz)
             # Send form_data in POST request...
             results = self.client.post(
                 reverse('coursebuilder:grade_quiz'), data=form_data)
@@ -75,7 +75,7 @@ class GradeQuizTestCase(TestCase):
     def test_grade_quiz_html_content_should_be_corrected(self):
         quizzes = Quiz.objects.all()
         for quiz in quizzes:
-            form_data = generate_form_data_for_quiz(quiz)
+            form_data = gen_quiz_form_data(quiz)
             # Send form_data in POST request...
             results = self.client.post(
                 reverse('coursebuilder:grade_quiz'), data=form_data)
@@ -97,13 +97,12 @@ class GradeQuizTestCase(TestCase):
         done right work evaluating right & wrong.
         """
         quizzes = Quiz.objects.all()
-        running_id = 0
         # for each of the Quizzes lets try to answer it...
         for quiz in quizzes:
             # get all questions & Generate form_data with the right answers...
-                
+
             # Send form_data in POST request...
-            form_data, answers_given = generate_form_data_for_quiz(quiz, running_id=0)
+            form_data, answers_given = gen_quiz_form_data(quiz, running_id=0)
             results = self.client.post(reverse('coursebuilder:grade_quiz'),
                                        data=form_data)
 

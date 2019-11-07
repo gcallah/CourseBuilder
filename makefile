@@ -28,7 +28,7 @@ FORCE:
 
 local: $(HTMLFILES)
 
-prod: $(INCS) $(HTMLFILES)
+prod: $(INCS) $(HTMLFILES) lint
 	-git commit -a 
 	git pull origin master
 	git push origin master
