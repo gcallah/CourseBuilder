@@ -34,8 +34,7 @@ prod: $(INCS) $(HTMLFILES) lint
 	git push origin master
 
 django_tests: FORCE
-	# coverage run manage.py test
-	echo "Must put real tests in place!"
+	./pytests.sh
 
 # next come quality control targets:
 html_tests: $(HTMLS)

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+"""Tests for CourseBuilder code"""
 from autofixture import AutoFixture
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -16,7 +18,7 @@ class GradeQuizTestCase(TestCase):
         """
         course_module = {
             # module_name : title
-            "cb_models": "Course Builder Model",
+            "cb_django": "Course Builder Model",
             "cb_quiz": "Course Builder Quiz"
         }
 

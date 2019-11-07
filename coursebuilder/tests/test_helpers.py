@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+"""
+Helper file for tests
+"""
 from coursebuilder.models import CourseModule, Question
 
 
