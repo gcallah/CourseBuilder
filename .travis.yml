@@ -27,7 +27,7 @@ script:
     - make tests
 
 after_success:
-    - ./deploy.sh
+    #- ./deploy.sh
 
 
 notifications:
