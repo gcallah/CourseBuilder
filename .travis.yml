@@ -27,11 +27,7 @@ script:
     - make tests
 
 after_success:
-<<<<<<< HEAD
     - ./deploy.sh
-=======
-    #- ./deploy.sh
->>>>>>> 75350e93d64a8ec77acff2e215fd27467e51f0b0
 
 
 notifications:
