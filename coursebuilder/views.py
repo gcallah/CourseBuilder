@@ -14,7 +14,7 @@ from .models import CourseModule, ModuleSection, Question, Quiz, Grade
 
 
 DEF_NUM_RAND_QS = 10  # total number of questins
-site_hdr = "Generic Website"
+site_hdr = "CourseBuilder"
 
 
 def get_filenm(mod_nm):
