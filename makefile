@@ -21,6 +21,8 @@ HTMLFILES = $(shell ls $(PTML_DIR)/*.ptml | sed -e 's/.ptml/.html/' | sed -e 's/
 
 FORCE:
 
+# Do we really need these html and local targets?
+# Let's discuss!
 %.html: $(PTML_DIR)/%.ptml $(INCS)
 	python3 $(UTILS_DIR)/html_checker.py $< 
 	$(UTILS_DIR)/html_include.awk <$< >$@
