@@ -201,8 +201,8 @@ class GradeModelTest(TestCase):
         self.assertTrue(isinstance(grade, Grade))
         self.assertEqual(grade.quiz, self.quiz)
         self.assertEqual(grade.participant, self.participant)
-        self.assertEqual(grade.quiz_name,
-                    "Quiz for What Are Modules? How to Add Them?")
+        self.assertEqual(
+            grade.quiz_name, "Quiz for What Are Modules? How to Add Them?")
 
     def test_get(self):
         grade = create_grade(self.quiz, self.participant)
