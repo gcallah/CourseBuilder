@@ -36,7 +36,8 @@ def create_quiz(module):
 def create_question(module):
     return Question.objects.create(
         module=module,
-        text="Which of the following database does CourseBuilder use in the back-end?",
+        text="Which of the following database does "
+             "CourseBuilder use in the back-end?",
         difficulty=2,
         qtype=QTYPES[0],
         correct="B",
@@ -95,7 +96,8 @@ class ModuleSectionModelTest(TestCase):
         self.assertEqual(module_section.title, "First Lesson")
         self.assertEqual(module_section.order, 1)
         self.assertEqual(module_section.lesson_order, 1)
-        self.assertEqual(module_section.content, "<p>Welcome to the first lesson!<p>")
+        self.assertEqual(module_section.content,
+                         "<p>Welcome to the first lesson!<p>")
 
     def test_get(self):
         module_section = create_module_section(self.course_module)
@@ -190,7 +192,8 @@ class ExtrasModelTest(TestCase):
 class GradeModelTest(TestCase):
     def setUp(self):
         self.course_module = create_course_module()
-        self.participant = User.objects.create_user('DevOps_team', 'devops', 'devops')
+        self.participant = User.objects.create_user(
+            'DevOps_team', 'devops', 'devops')
         self.quiz = create_quiz(self.course_module)
 
     def test_create(self):
@@ -198,7 +201,8 @@ class GradeModelTest(TestCase):
         self.assertTrue(isinstance(grade, Grade))
         self.assertEqual(grade.quiz, self.quiz)
         self.assertEqual(grade.participant, self.participant)
-        self.assertEqual(grade.quiz_name, "Quiz for What Are Modules? How to Add Them?")
+        self.assertEqual(grade.quiz_name,
+                    "Quiz for What Are Modules? How to Add Them?")
 
     def test_get(self):
         grade = create_grade(self.quiz, self.participant)
