@@ -22,3 +22,7 @@ urlpatterns = [
     url(r'', include('coursebuilder.urls')),
     url(r'^tinymce/', include('tinymce.urls'))
 ]
+
+admin.site.site_header = "CourseBuilder Administration"
+admin.site.site_title = "CourseBuilder Admin"
+admin.site.index_title = "Welcome to the CourseBuilder Admin"
