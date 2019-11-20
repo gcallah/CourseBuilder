@@ -55,7 +55,7 @@ submods:
 
 # dev container has dev tools
 dev_container: $(DOCKER_DIR)/Dockerfile $(DOCKER_DIR)/requirements.txt $(DOCKER_DIR)/requirements-dev.txt
-	docker build -t gcallah/$(REPO)-dev docker
+	docker build -t gcallah/$(REPO)-dev --build-arg repo=$(REPO) docker
 
 
 # prod container has only what's needed to run
@@ -66,6 +66,10 @@ prod_container: $(DOCKER_DIR)/Deployable $(DOCKER_DIR)/requirements.txt
 deploy_container:
 	docker push gcallah/$(REPO):latest
 	
+dev_local:
+	pip3 install --upgrade pip
+	pip3 install -r docker/requirements-dev.txt
+
 nocrud:
 	rm *~
 	rm .*swp
