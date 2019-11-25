@@ -17,10 +17,6 @@ DEF_NUM_RAND_QS = 10  # total number of questins
 site_hdr = "CourseBuilder"
 
 
-def get_filenm(mod_nm):
-    return mod_nm + '.html'
-
-
 def landing_page(request: request) -> object:
 
     try:

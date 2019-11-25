@@ -59,7 +59,6 @@ def create_grade(quiz, participant):
         quiz=quiz,
         score=33.33,
         participant=participant,
-        # record_date=date,
         quiz_name="Quiz for What Are Modules? How to Add Them?"
     )
 
@@ -73,6 +72,7 @@ class CourseModuleModelTest(TestCase):
         self.assertEqual(module.title, "First Module")
         self.assertEqual(module.next_module, "empty")
         self.assertEqual(module.content, "<p>Welcome to the first module!<p>")
+        self.assertEqual(str(module), module.title)
 
     def test_get(self):
         module = create_course_module()
@@ -98,6 +98,7 @@ class ModuleSectionModelTest(TestCase):
         self.assertEqual(module_section.lesson_order, 1)
         self.assertEqual(module_section.content,
                          "<p>Welcome to the first lesson!<p>")
+        self.assertEqual(str(module_section), module_section.title)
 
     def test_get(self):
         module_section = create_module_section(self.course_module)
@@ -123,6 +124,7 @@ class QuizModelTest(TestCase):
         self.assertEqual(quiz.module, self.course_module)
         self.assertEqual(quiz.minpass, 75.0)
         self.assertEqual(quiz.show_answers, True)
+        self.assertEqual(str(quiz), "Quiz for " + str(quiz.module))
 
     def test_get(self):
         quiz = create_quiz(self.course_module)
@@ -156,6 +158,7 @@ class QuestionModelTest(TestCase):
         self.assertEqual(question.answerC, "PostgreSQL")
         self.assertEqual(question.answerD, None)
         self.assertEqual(question.answerE, None)
+        self.assertEqual(str(question), question.text)
 
     def test_get(self):
         question = create_question(self.course_module)
@@ -177,6 +180,7 @@ class ExtrasModelTest(TestCase):
         self.assertTrue(isinstance(extras, Extras))
         self.assertEqual(extras.title, "Extras")
         self.assertEqual(extras.content, "<p>Content for Extras<p>")
+        self.assertEqual(str(extras), extras.title)
 
     def test_get(self):
         extras = create_extras()

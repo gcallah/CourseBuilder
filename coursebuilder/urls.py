@@ -2,12 +2,7 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'coursebuilder'  # type: str
-
-
-def view_templ(vname):
-    pass
-    # we ought to be able to turn all of the code below into a single call
+app_name = 'coursebuilder'
 
 
 urlpatterns = [
