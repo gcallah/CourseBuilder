@@ -50,6 +50,9 @@ lint: $(patsubst %.py,%.pylint,$(PYTHON_FILES))
 # real tests need to be written!
 tests: django_tests html_tests lint
 
+test_docker:
+	docker build -t gcallah/$(REPO) docker/
+
 submods:
 	git submodule foreach 'git pull origin master'
 
