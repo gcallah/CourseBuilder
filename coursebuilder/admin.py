@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import CourseModule, ModuleSection, Quiz,\
-    Question, Extras, Grade
+from .models import CourseModule, ModuleSection, Quiz, Question, Extras, Grade
 
 
 class CourseModuleAdmin(admin.ModelAdmin):
@@ -18,8 +17,16 @@ class QuizAdmin(admin.ModelAdmin):
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = (
-        "module", "text", "difficulty", "qtype", "correct",
-        "answerA", "answerB", "answerC", "answerD", "answerE"
+        "module",
+        "text",
+        "difficulty",
+        "qtype",
+        "correct",
+        "answerA",
+        "answerB",
+        "answerC",
+        "answerD",
+        "answerE",
     )
 
 

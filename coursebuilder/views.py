@@ -2,8 +2,7 @@ import urllib.request
 import re
 import random
 
-from django.http import request, HttpResponseServerError, \
-    HttpResponseBadRequest
+from django.http import request, HttpResponseServerError, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.template.loader import render_to_string
@@ -20,80 +19,91 @@ site_hdr = "CourseBuilder"
 def landing_page(request: request) -> object:
 
     try:
-        modules = CourseModule.objects.all().order_by('course_order')
+        modules = CourseModule.objects.all().order_by("course_order")
         messageContent = "Course Modules"
-        return render(request, 'landing_page.html', {
-            'modules': modules,
-            'header': site_hdr,
-            'message': messageContent
-        })
+        return render(
+            request,
+            "landing_page.html",
+            {"modules": modules, "header": site_hdr, "message": messageContent},
+        )
     except Exception:
         messageContent = "Database Not Connected"
-        return render(request, 'landing_page.html', {
-            'header': site_hdr,
-            'message': messageContent
-        })
+        return render(
+            request,
+            "landing_page.html",
+            {"header": site_hdr, "message": messageContent},
+        )
 
 
 def dynamic_about(request: request) -> object:
     try:
-        return render(request, 'dynamic_about.html', {
-            'header': site_hdr,
-            'about': render_to_string('about.html'),
-        })
+        return render(
+            request,
+            "dynamic_about.html",
+            {"header": site_hdr, "about": render_to_string("about.html")},
+        )
 
     except Exception:
-        return render(request, 'dynamic_about.html', {
-            'header': site_hdr,
-            'message': "Database Not Connected"
-        })
+        return render(
+            request,
+            "dynamic_about.html",
+            {"header": site_hdr, "message": "Database Not Connected"},
+        )
 
 
-def chapter(request, chapter='basics'):
+def chapter(request, chapter="basics"):
 
     try:
         contents = CourseModule.objects.get(module=chapter)
-        sections = ModuleSection.objects.filter(module=contents)\
-            .order_by('order', 'lesson_order')
+        sections = ModuleSection.objects.filter(module=contents).order_by(
+            "order", "lesson_order"
+        )
         rand_qs = get_quiz_question(contents)
-        next_module = ''
+        next_module = ""
         if not rand_qs:
             try:
                 if CourseModule.objects.get(module=contents.next_module):
                     next_module = contents.next_module
             except Exception:
                 pass
-        return render(request, 'chapter.html', {
-            'module_title': contents.title,
-            'sections': sections,
-            'questions': rand_qs,
-            'header': site_hdr,
-            'content': contents.content,
-            'mod_nm': chapter,
-            'next_module': next_module
-        })
+        return render(
+            request,
+            "chapter.html",
+            {
+                "module_title": contents.title,
+                "sections": sections,
+                "questions": rand_qs,
+                "header": site_hdr,
+                "content": contents.content,
+                "mod_nm": chapter,
+                "next_module": next_module,
+            },
+        )
     except Exception:
-        return render(request, 'chapter.html', {
-            'header': site_hdr,
-            'content': "Database Not Connected"})
+        return render(
+            request,
+            "chapter.html",
+            {"header": site_hdr, "content": "Database Not Connected"},
+        )
 
 
 def dynamic_gloss(request: request) -> object:
     try:
-        return render(request, 'dynamic_gloss.html', {
-            'header': site_hdr,
-            'gloss': render_to_string('glossary.html'),
-        })
+        return render(
+            request,
+            "dynamic_gloss.html",
+            {"header": site_hdr, "gloss": render_to_string("glossary.html")},
+        )
     except Exception:
-        return render(request, 'dynamic_gloss.html', {
-            'header': site_hdr,
-            'message': "Database Not Connected"
-        })
+        return render(
+            request,
+            "dynamic_gloss.html",
+            {"header": site_hdr, "message": "Database Not Connected"},
+        )
 
 
 @require_http_methods(["GET", "POST"])
 def parse_search(request) -> object:
-
     def crawl_index(url):
         with urllib.request.urlopen(url) as response:
             html = response.read()
@@ -123,11 +133,7 @@ def parse_search(request) -> object:
                 for i in strings:
                     i = re.sub("\n", " ", i)
                     if query in i.lower():
-                        dic = {
-                            "url": content_url,
-                            "page": title,
-                            "content": i
-                        }
+                        dic = {"url": content_url, "page": title, "content": i}
                         result.append(dic)
         return result
 
@@ -137,21 +143,18 @@ def parse_search(request) -> object:
         header = "The coursebuilder Course"
         path = request.get_full_path()
         query = path.split("query=")[1]
-        if("+") in query:
+        if ("+") in query:
             query = " ".join(query.split("+")).lower()
         else:
             query = query.lower()
 
         data = search_page(crawl_index(url), query)
 
-        return render(request,
-                      'search.html', dict(data=data,
-                                          header=header,
-                                          query=query))
+        return render(
+            request, "search.html", dict(data=data, header=header, query=query)
+        )
     except Exception as e:
-        return HttpResponseServerError(e.__cause__,
-                                       e.__context__,
-                                       e.__traceback__)
+        return HttpResponseServerError(e.__cause__, e.__context__, e.__traceback__)
 
 
 def get_nav_links(curr_module, correct_pct, curr_quiz, mod_nm):
@@ -160,14 +163,12 @@ def get_nav_links(curr_module, correct_pct, curr_quiz, mod_nm):
     if curr_module is not None:
         try:
             if CourseModule.objects.get(module=curr_module.next_module):
-                nav_links = {
-                    'next': curr_module.next_module
-                }
+                nav_links = {"next": curr_module.next_module}
         except Exception:
             nav_links = {}
         # If user fails, show link to previous module
         if correct_pct < curr_quiz.minpass:
-            nav_links['previous'] = mod_nm
+            nav_links["previous"] = mod_nm
     return nav_links
 
 
@@ -201,9 +202,11 @@ def get_quiz_question(mod_nm):
 
         # And if we crashed along the way - we crash gracefully...
     except Exception:
-        return render(request, 'chapter.html', {
-            'header': site_hdr,
-            'content': "Database Not Connected"})
+        return render(
+            request,
+            "chapter.html",
+            {"header": site_hdr, "content": "Database Not Connected"},
+        )
 
 
 def mark_quiz(user_answers, graded_answers):
@@ -216,28 +219,25 @@ def mark_quiz(user_answers, graded_answers):
 
         # Lets start building a dictionary
         # with the status for the particular questions.
-        processed_answer['question'] = original_question.text
-        processed_answer['correctAnswer'] = original_question.correct.lower()
-        processed_answer['yourAnswer'] = answered_question[id_to_retrieve]
+        processed_answer["question"] = original_question.text
+        processed_answer["correctAnswer"] = original_question.correct.lower()
+        processed_answer["yourAnswer"] = answered_question[id_to_retrieve]
 
-        correctanskey =\
-            "answer{}".format(processed_answer['correctAnswer'].upper())
-        youranskey =\
-            "answer{}".format(processed_answer['yourAnswer'].upper())
+        correctanskey = "answer{}".format(processed_answer["correctAnswer"].upper())
+        youranskey = "answer{}".format(processed_answer["yourAnswer"].upper())
 
-        processed_answer['correctAnswerText'] =\
-            getattr(original_question, correctanskey)
-        processed_answer['yourAnswerText'] =\
-            getattr(original_question, youranskey)
+        processed_answer["correctAnswerText"] = getattr(
+            original_question, correctanskey
+        )
+        processed_answer["yourAnswerText"] = getattr(original_question, youranskey)
 
         # and now we are evaluating either as right or wrong...
-        if answered_question[id_to_retrieve] ==\
-                processed_answer['correctAnswer']:
-            processed_answer['status'] = "right"
+        if answered_question[id_to_retrieve] == processed_answer["correctAnswer"]:
+            processed_answer["status"] = "right"
             num_correct += 1
         else:
-            processed_answer['message'] = "Sorry, that's incorrect!"
-            processed_answer['status'] = "wrong"
+            processed_answer["message"] = "Sorry, that's incorrect!"
+            processed_answer["status"] = "wrong"
             # and store to ship to the Template.
         graded_answers.append(processed_answer)
     return num_correct
@@ -251,7 +251,7 @@ def grade_quiz(request):
     try:
         num_rand_qs = DEF_NUM_RAND_QS
         # First, we process only when form is POSTed...
-        if request.method == 'POST':
+        if request.method == "POST":
             graded_answers = []
             user_answers = []
             form_data = request.POST
@@ -260,13 +260,13 @@ def grade_quiz(request):
             # get only post fields containing user answers...
             for key, value in form_data.items():
                 # what is going on here is completely obscure to me: GC
-                if key.startswith('_'):
-                    proper_id = str(key).strip('_')
+                if key.startswith("_"):
+                    proper_id = str(key).strip("_")
                     user_answers.append({proper_id: value})
 
             # forces user to answer all quiz questions,
             # redirects to module page if not completed
-            mod_nm = form_data['submit']
+            mod_nm = form_data["submit"]
             contents = CourseModule.objects.get(module=mod_nm)
             questions = Question.objects.filter(module=contents)
 
@@ -287,7 +287,7 @@ def grade_quiz(request):
             correct_pct = Decimal((num_correct / num_qs_to_check) * 100)
 
             curr_module = None
-            quiz_name = 'Quiz'
+            quiz_name = "Quiz"
             modules = CourseModule.objects.get(module=mod_nm)
             # we should log if we get count > 1 here!
             # for this_module in modules:
@@ -297,27 +297,32 @@ def grade_quiz(request):
             curr_module = modules
             quiz_name = modules.title
 
-            nav_links = get_nav_links(curr_module, correct_pct,
-                                      curr_quiz, mod_nm)
+            nav_links = get_nav_links(curr_module, correct_pct, curr_quiz, mod_nm)
 
             # now we are ready to record quiz results...
-            if request.user.username != '':
-                Grade.objects.create(participant=request.user,
-                                     score=correct_pct.real,
-                                     quiz=curr_quiz,
-                                     quiz_name=mod_nm)
+            if request.user.username != "":
+                Grade.objects.create(
+                    participant=request.user,
+                    score=correct_pct.real,
+                    quiz=curr_quiz,
+                    quiz_name=mod_nm,
+                )
 
             # ok, all questions processed, lets render results...
-            return render(request,
-                          'graded_quiz.html',
-                          dict(graded_answers=graded_answers,
-                               num_ques=num_qs_to_check,
-                               num_correct=num_correct,
-                               correct_pct=int(correct_pct),
-                               quiz_name=quiz_name,
-                               show_answers=show_answers,
-                               navigate_links=nav_links,
-                               header=site_hdr))
+            return render(
+                request,
+                "graded_quiz.html",
+                dict(
+                    graded_answers=graded_answers,
+                    num_ques=num_qs_to_check,
+                    num_correct=num_correct,
+                    correct_pct=int(correct_pct),
+                    quiz_name=quiz_name,
+                    show_answers=show_answers,
+                    navigate_links=nav_links,
+                    header=site_hdr,
+                ),
+            )
 
         # If it is PUT, DELETE etc. we say we dont do that...
         else:
@@ -325,6 +330,4 @@ def grade_quiz(request):
 
     # And if we crashed along the way - we crash gracefully...
     except Exception as e:
-        return HttpResponseServerError(e.__cause__,
-                                       e.__context__,
-                                       e.__traceback__)
+        return HttpResponseServerError(e.__cause__, e.__context__, e.__traceback__)
