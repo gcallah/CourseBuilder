@@ -23,7 +23,7 @@ class CourseModule(models.Model):
         the section contents go in the ModuleSection table.
     """
 
-    course_order = models.IntegerField(blank=True, null=True)
+    course_order = models.IntegerField(blank=True, null=True, unique=True)
     module = models.CharField(max_length=MODNM_LEN, unique=True)
     title = models.TextField()
     next_module = models.CharField(max_length=MODNM_LEN)
@@ -31,6 +31,9 @@ class CourseModule(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ["course_order"]
 
 
 class ModuleSection(models.Model):
@@ -47,6 +50,10 @@ class ModuleSection(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        unique_together = ("module", "order")
+        ordering = ["module", "order"]
 
 
 class Quiz(models.Model):
@@ -80,7 +87,7 @@ class Question(models.Model):
         return self.text
 
     class Meta:
-        ordering = ["module"]
+        ordering = ["module", "qtype", "difficulty"]
 
 
 class Extras(models.Model):
