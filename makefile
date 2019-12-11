@@ -30,10 +30,12 @@ FORCE:
 
 local: $(HTMLFILES)
 
-prod: $(INCS) $(HTMLFILES) lint
+prod: $(INCS) $(HTMLFILES) tests
 	-git commit -a 
 	git pull origin master
 	git push origin master
+
+tests: django_tests lint
 
 django_tests: FORCE
 	./pytests.sh
@@ -46,9 +48,6 @@ lint: $(patsubst %.py,%.pylint,$(PYTHON_FILES))
 
 %.pylint:
 	$(PY_LINT) $(PYLINT_FLAGS) $*.py
-
-# real tests need to be written!
-tests: django_tests html_tests lint
 
 test_docker:
 	docker build -t gcallah/$(REPO) docker/
