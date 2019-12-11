@@ -5,14 +5,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('coursebuilder', '0003_delete_extra'),
-    ]
+    dependencies = [("coursebuilder", "0003_delete_extra")]
 
     operations = [
         migrations.AlterField(
-            model_name='modulesection',
-            name='order',
-            field=models.IntegerField(),
-        ),
+            model_name="modulesection", name="order", field=models.IntegerField()
+        )
     ]

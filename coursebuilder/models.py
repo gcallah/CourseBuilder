@@ -9,10 +9,10 @@ MODNM_LEN = 16
 DEF_PASS = 80.0
 
 QTYPES = (
-    ('MCHOICE', 'Multiple choice'),
-    ('TF', 'True/False'),
-    ('BLANK', 'Fill-in-the-blank'),
-    ('ESSAY', 'Essay'),
+    ("MCHOICE", "Multiple choice"),
+    ("TF", "True/False"),
+    ("BLANK", "Fill-in-the-blank"),
+    ("ESSAY", "Essay"),
 )
 
 
@@ -22,14 +22,18 @@ class CourseModule(models.Model):
     The content field should only have the intro material:
         the section contents go in the ModuleSection table.
     """
-    course_order = models.IntegerField(blank=True, null=True)
+
+    course_order = models.IntegerField(blank=True, null=True, unique=True)
     module = models.CharField(max_length=MODNM_LEN, unique=True)
     title = models.TextField()
     next_module = models.CharField(max_length=MODNM_LEN)
-    content = HTMLField(default='Please enter your contents here!')
+    content = HTMLField(default="Please enter your contents here!")
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ["course_order"]
 
 
 class ModuleSection(models.Model):
@@ -37,21 +41,24 @@ class ModuleSection(models.Model):
     This table holds the section content for each module (chapter)
     in our material.
     """
-    module = models.ForeignKey(
-        CourseModule, models.SET_NULL, blank=True, null=True)
+
+    module = models.ForeignKey(CourseModule, models.SET_NULL, blank=True, null=True)
     title = models.TextField()
     order = models.IntegerField(blank=False, null=False)
     lesson_order = models.IntegerField(blank=True, null=True)
-    content = HTMLField(default='Please enter your contents here!')
+    content = HTMLField(default="Please enter your contents here!")
 
     def __str__(self):
         return self.title
 
+    class Meta:
+        unique_together = ("module", "order")
+        ordering = ["module", "order"]
+
 
 class Quiz(models.Model):
     # module = models.CharField(max_length=MODNM_LEN, unique=True)
-    module = models.ForeignKey(
-        CourseModule, models.SET_NULL, blank=True, null=True)
+    module = models.ForeignKey(CourseModule, models.SET_NULL, blank=True, null=True)
     minpass = models.FloatField(default=DEF_PASS)
     numq = models.IntegerField()
     show_answers = models.BooleanField(default=True)
@@ -65,8 +72,7 @@ class Quiz(models.Model):
 
 class Question(models.Model):
     # module = models.CharField(max_length=MODNM_LEN)
-    module = models.ForeignKey(
-        CourseModule, models.SET_NULL, blank=True, null=True)
+    module = models.ForeignKey(CourseModule, models.SET_NULL, blank=True, null=True)
     text = models.CharField(max_length=QUEST_LEN)
     difficulty = models.IntegerField(null=True, blank=True)
     qtype = models.CharField(choices=QTYPES, max_length=10)
@@ -81,12 +87,12 @@ class Question(models.Model):
         return self.text
 
     class Meta:
-        ordering = ['module']
+        ordering = ["module", "qtype", "difficulty"]
 
 
 class Extras(models.Model):
     title = models.TextField()
-    content = HTMLField(default='Please enter your contents here!')
+    content = HTMLField(default="Please enter your contents here!")
 
     class Meta:
         verbose_name_plural = "Extras"
@@ -96,10 +102,10 @@ class Extras(models.Model):
 
 
 class Grade(models.Model):
-    quiz = models.ForeignKey(
-        Quiz, related_name='quiz', on_delete=models.DO_NOTHING)
+    quiz = models.ForeignKey(Quiz, related_name="quiz", on_delete=models.DO_NOTHING)
     score = models.DecimalField(max_digits=5, decimal_places=2)
     participant = models.ForeignKey(
-        User, related_name='participant', on_delete=models.DO_NOTHING)
+        User, related_name="participant", on_delete=models.DO_NOTHING
+    )
     record_date = models.DateTimeField(auto_now=True)
-    quiz_name = models.CharField(max_length=MODNM_LEN, default='work')
+    quiz_name = models.CharField(max_length=MODNM_LEN, default="work")

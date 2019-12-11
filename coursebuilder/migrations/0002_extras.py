@@ -6,17 +6,28 @@ import tinymce.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('coursebuilder', '0001_initial'),
-    ]
+    dependencies = [("coursebuilder", "0001_initial")]
 
     operations = [
         migrations.CreateModel(
-            name='Extras',
+            name="Extras",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.TextField()),
-                ('content', tinymce.models.HTMLField(default='Please enter your contents here!')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.TextField()),
+                (
+                    "content",
+                    tinymce.models.HTMLField(
+                        default="Please enter your contents here!"
+                    ),
+                ),
             ],
-        ),
+        )
     ]

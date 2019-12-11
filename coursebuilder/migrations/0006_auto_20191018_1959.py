@@ -6,19 +6,27 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('coursebuilder', '0005_auto_20191013_2133'),
-    ]
+    dependencies = [("coursebuilder", "0005_auto_20191013_2133")]
 
     operations = [
         migrations.AlterField(
-            model_name='question',
-            name='module',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='coursebuilder.CourseModule'),
+            model_name="question",
+            name="module",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="coursebuilder.CourseModule",
+            ),
         ),
         migrations.AlterField(
-            model_name='quiz',
-            name='module',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='coursebuilder.CourseModule'),
+            model_name="quiz",
+            name="module",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="coursebuilder.CourseModule",
+            ),
         ),
     ]

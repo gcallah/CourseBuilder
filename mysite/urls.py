@@ -18,9 +18,9 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    url(r'', include('coursebuilder.urls')),
-    url(r'^tinymce/', include('tinymce.urls'))
+    path("admin/", admin.site.urls),
+    url(r"", include("coursebuilder.urls")),
+    url(r"^tinymce/", include("tinymce.urls")),
 ]
 
 admin.site.site_header = "CourseBuilder Administration"

@@ -8,3 +8,4 @@ urllib3
 flake8
 django-tinymce
 beautifulsoup4
+black==19.3b0
