@@ -89,11 +89,9 @@ def chapter(request, chapter="basics"):
 
 def dynamic_gloss(request: request) -> object:
     try:
-        gloss = Extras.objects.get(title='Gloss')
+        gloss = Extras.objects.get(title="Gloss")
         return render(
-            request,
-            "dynamic_gloss.html",
-            {"header": site_hdr, "gloss": gloss.content},
+            request, "dynamic_gloss.html", {"header": site_hdr, "gloss": gloss.content}
         )
     except Exception:
         return render(
