@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from bs4 import BeautifulSoup as bs
 from decimal import Decimal
 
-from .models import CourseModule, ModuleSection, Question, Quiz, Grade
+from .models import CourseModule, ModuleSection, Question, Quiz, Grade, Extras
 
 
 DEF_NUM_RAND_QS = 10  # total number of questins
@@ -89,10 +89,9 @@ def chapter(request, chapter="basics"):
 
 def dynamic_gloss(request: request) -> object:
     try:
+        gloss = Extras.objects.get(title="Gloss")
         return render(
-            request,
-            "dynamic_gloss.html",
-            {"header": site_hdr, "gloss": render_to_string("glossary.html")},
+            request, "dynamic_gloss.html", {"header": site_hdr, "gloss": gloss.content}
         )
     except Exception:
         return render(
